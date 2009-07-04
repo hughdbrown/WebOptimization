@@ -1,16 +1,17 @@
 from __future__ import with_statement
 
-from base64 import b64encode
+from base64 import * # standard_b64encode b64encode
 from os.path import split as path_split
 
 def file_contents(filename):
-	with open(filename, "r") as f:
+	with open(filename, "rb") as f:
 		return f.read()
 
 def data_encoder(format, filename):
 	content = b64encode(file_contents(filename))
+	#content = standard_b64encode(file_contents(filename))
 	_, file_without_path = path_split(filename)
-	ext = file_without_path.split(".")[1]
+	_, ext = file_without_path.split(".")
 	return format % (ext, content)
 
 # For placing in a CSS file
@@ -25,4 +26,5 @@ if __name__ == "__main__":
 	import sys, glob
 	for arg in sys.argv[1:]:
 		for filename in glob.glob(arg):
-			print data_encoded_url(filename)
+			#print data_encoded_url(filename)
+			print data_encoded_img(filename)
