@@ -1,18 +1,16 @@
 from __future__ import with_statement
 
-from base64 import * # standard_b64encode b64encode
-from os.path import split as path_split
+from base64 import b64encode
+from os.path import splitext
 
 def file_contents(filename):
-	with open(filename, "rb") as f:
+	with open(filename, "r") as f:
 		return f.read()
 
 def data_encoder(format, filename):
 	content = b64encode(file_contents(filename))
-	#content = standard_b64encode(file_contents(filename))
-	_, file_without_path = path_split(filename)
-	_, ext = file_without_path.split(".")
-	return format % (ext, content)
+	_, ext = splitext(filename)
+	return format % (ext[1:], content)
 
 # For placing in a CSS file
 def data_encoded_url(filename):
