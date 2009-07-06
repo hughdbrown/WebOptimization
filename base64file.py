@@ -10,15 +10,15 @@ def file_contents(filename):
 def data_encoder(format, filename):
 	content = b64encode(file_contents(filename))
 	_, ext = splitext(filename)
-	return format % (ext[1:], content)
+	return "data:image/%s;base64,%s" % (ext[1:], content)
 
 # For placing in a CSS file
 def data_encoded_url(filename):
-	return data_encoder("url(data:image/%s;base64,%s)", filename)
+	return "url(%s)" % data_encoder(filename)
 
 # For placing in an HTML file
 def data_encoded_img(filename):
-	return data_encoder('<img src="data:image/%s;base64,%s" />', filename)
+	return '<img src="%s" />' % data_encoder(filename)
 
 if __name__ == "__main__":
 	import sys, glob
